@@ -1,5 +1,5 @@
 import React from "react"
-import { Modal, Form, Col, Button, Alert } from "react-bootstrap"
+import { Modal, Form, Col, Button } from "react-bootstrap"
 
 import { editPost, deletePost, postImage } from "../../api/posts"
 
