@@ -4,62 +4,75 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "./styles.scss"
 import io from "socket.io-client"
 import { getLocalStorage } from "../../helpers/localStorage"
+import { useState, useEffect } from "react"
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap"
 
-class MyChat extends Component {
-  socket = null
+const connOpt = {
+  transports: ["websocket", "polling"],
+}
 
-  state = {
-    message: "",
-    messages: [],
-    showModal: true,
-    userName: getLocalStorage("user").username,
-  }
+let socket = io("https://striveschool-api.herokuapp.com", connOpt)
 
-  componentDidMount = () => {
-    const connOpt = {
-      transports: ["websocket", "polling"],
-    }
+let userName = getLocalStorage("user").username
 
-    this.socket = io("https://striveschool-api.herokuapp.com", connOpt)
+const MyChat = () => {
+  // socket = null
 
-    this.socket.on("connect", () => {
+  // state = {
+  //   message: "",
+  //   messages: [],
+  //   showModal: true,
+  //   userName: getLocalStorage("user").username,
+  // }
+
+  const [message, setMessage] = useState("")
+  const [showModal, setShowModal] = useState(true)
+  const [messages, setMessages] = useState([])
+
+  useEffect(() => {
+    socket.on("connect", () => {
       console.log("connected to socket")
     })
-    this.socket.on("list", console.log)
+    socket.on("list", console.log)
+  }, [])
+  // componentDidMount = () => {
 
-    // this.socket.on("list", () => {
-    //   "https://striveschool-api.herokuapp.com/messages/" + this.state.userName,
-    //     connOpt
-    // })
-    // this.socket.on((msg) => {
-    //   this.setState({ messages: this.state.messages.concat(msg) })
-    // })
+  //   this.socket.on("connect", () => {
+  //     console.log("connected to socket")
+  //   })
+  //   this.socket.on("list", console.log)
+
+  //   // this.socket.on("list", () => {
+  //   //   "https://striveschool-api.herokuapp.com/messages/" + this.state.userName,
+  //   //     connOpt
+  //   // })
+  //   // this.socket.on((msg) => {
+  //   //   this.setState({ messages: this.state.messages.concat(msg) })
+  //   // })
+  // }
+
+  const handleChange = (e) => {
+    setMessage(e.target.value)
   }
 
-  handleChange = (e) => {
-    this.setState({ message: e.target.value })
+  const toggleModal = () => {
+    setShowModal(!showModal)
   }
 
-  toggleModal = () => {
-    this.setState({ showModal: !this.state.showModal })
-  }
-
-  submitMessage = (e) => {
+  const submitMessage = (e) => {
     e.preventDefault()
-    if (this.state.messages !== "") {
-      this.socket.emit("chatmessage", {
-        userName: this.state.userName,
-        message: this.state.message,
+    if (message !== "") {
+      socket.emit("chatmessage", {
+        userName,
+        message,
       })
-      this.setState({ message: "" })
+      setMessage("")
     }
   }
 
-  render() {
-    return (
-      <>
-        {/* <div className="App">
+  return (
+    <>
+      {/* <div className="App">
           <ul id="messages">
             {messages.map((msg, i) => (
               <li
@@ -81,7 +94,7 @@ class MyChat extends Component {
             </Button>
           </form>
         </div> */}
-        {/* <Modal
+      {/* <Modal
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -103,19 +116,14 @@ class MyChat extends Component {
           </Modal.Footer>
         </Modal> */}
 
-        <form className="form" onSubmit={this.submitMessage}>
-          <input
-            autoComplete="off"
-            value={this.state.message}
-            onChange={this.handleChange}
-          />
-          <Button type="submit" className="rounded-0">
-            Send
-          </Button>
-        </form>
-      </>
-    )
-  }
+      <form className="form" onSubmit={submitMessage}>
+        <input autoComplete="off" value={message} onChange={handleChange} />
+        <Button type="submit" className="rounded-0">
+          Send
+        </Button>
+      </form>
+    </>
+  )
 }
 
 export default MyChat
