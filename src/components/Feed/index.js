@@ -49,11 +49,11 @@ class Feed extends React.Component {
           await deleteLike(postId, isPostLiked._id)
           this.props.changeCounter()
         } else {
-          const likeAdded = await addLike(postId, this.state.userId)
+          await addLike(postId, this.state.userId)
           this.props.changeCounter()
         }
       } else {
-        const likeAdded = await addLike(postId, this.state.userId)
+        await addLike(postId, this.state.userId)
         this.props.changeCounter()
       }
     } catch (err) {

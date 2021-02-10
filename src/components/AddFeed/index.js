@@ -1,6 +1,5 @@
 import React from "react"
 import { Row, Col, Card } from "react-bootstrap"
-import { Link } from "react-router-dom"
 import { Avatar } from "@material-ui/core"
 import { FaLinkedin } from "react-icons/fa"
 import InfoIcon from "@material-ui/icons/Info"

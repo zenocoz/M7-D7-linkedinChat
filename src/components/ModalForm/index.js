@@ -65,12 +65,10 @@ class ModalForm extends React.Component {
                 <img
                   className="header-img"
                   src="https://coverfiles.alphacoders.com/372/37275.jpg"
-                  alt="top-image"
                 />
                 <img
                   className="profile-img-modal"
                   src={this.state.info.image}
-                  alt="profile-pic"
                 />
               </Col>
             </Row>

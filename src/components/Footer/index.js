@@ -17,7 +17,7 @@ class Footer extends React.Component {
     console.log(e.targe.value)
   }
   render() {
-    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    React.forwardRef(({ children, onClick }, ref) => (
       <a
         ref={ref}
         onClick={(e) => {
@@ -52,7 +52,7 @@ class Footer extends React.Component {
 
                 <li>
                   <Dropdown>
-                    <Dropdown.Toggle
+                    {/* <Dropdown.Toggle
                       as={CustomToggle}
                       id="dropdown-custom-components"
                     >
@@ -71,7 +71,7 @@ class Footer extends React.Component {
                       <Dropdown.Item className="dropdownitems">
                         Copyright Policy
                       </Dropdown.Item>
-                    </Dropdown.Menu>
+                    </Dropdown.Menu> */}
                   </Dropdown>
                 </li>
               </ul>
