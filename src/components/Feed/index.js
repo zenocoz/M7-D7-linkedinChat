@@ -45,25 +45,16 @@ class Feed extends React.Component {
         const isPostLiked = post.likes.find(
           (like) => like.userId === this.state.userId.userId
         )
-        console.log("is post already liked", isPostLiked)
         if (isPostLiked) {
-          console.log(
-            `you already liked this post. It has a total of ${post.likes.length} likes`
-          )
           await deleteLike(postId, isPostLiked._id)
           this.props.changeCounter()
         } else {
           const likeAdded = await addLike(postId, this.state.userId)
           this.props.changeCounter()
-          console.log(
-            "you haven't like this post but now you do. Here you go",
-            likeAdded
-          )
         }
       } else {
         const likeAdded = await addLike(postId, this.state.userId)
         this.props.changeCounter()
-        console.log("you are the first one to like this post", likeAdded)
       }
     } catch (err) {
       console.log(err)
@@ -87,8 +78,6 @@ class Feed extends React.Component {
   isPostLiked = (postId) => {
     const post = this.state.posts.find((post) => post._id === postId)
     if (post.likes && post.likes.length > 0) {
-      console.log("this post has likes", post)
-
       const isLiked = post.likes.find(
         (like) => like.userId === this.state.userId.userId
       )
@@ -98,15 +87,12 @@ class Feed extends React.Component {
 
   populateFeed = async () => {
     const posts = await fetchPosts()
-    console.log("posts data", posts?.data)
     if (posts.data.length > 0) {
       this.setState({ posts: posts?.data?.reverse(), loading: false })
     }
   }
 
   updateCommentField = (e, postId) => {
-    console.log("e: ", e)
-    console.log("pstID: ", postId)
     if (e.keyCode === 13 || e.key === "Enter") {
       e.preventDefault()
       this.submitComment(postId)
@@ -254,7 +240,7 @@ class Feed extends React.Component {
                           maxHeight: "300px",
                           width: "100%",
                           borderColor: "#e7e6e5",
-                          alt: "",
+                          alt: " ",
                         }}
                       />
                     )}

@@ -28,14 +28,13 @@ class MyChat extends Component {
     })
     this.socket.on("list", console.log)
 
-    this.socket = on(
-      "list",
-      "https://striveschool-api.herokuapp.com/messages/" + this.state.userName,
-      connOpt
-    )
-    this.socket.on((msg) => {
-      this.setState({ messages: this.state.messages.concat(msg) })
-    })
+    // this.socket.on("list", () => {
+    //   "https://striveschool-api.herokuapp.com/messages/" + this.state.userName,
+    //     connOpt
+    // })
+    // this.socket.on((msg) => {
+    //   this.setState({ messages: this.state.messages.concat(msg) })
+    // })
   }
 
   handleChange = (e) => {
